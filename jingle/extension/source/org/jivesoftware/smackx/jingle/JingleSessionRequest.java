@@ -107,17 +107,16 @@ public class JingleSessionRequest {
      * @return Returns the <b><i>IncomingJingleSession</b></i> on which the
      *         negotiation can be carried out.
      */
-    public synchronized JingleSession accept(JingleSession session) throws XMPPException {
-        //JingleSession session = null;
+    public synchronized JingleSession accept() throws XMPPException {
         synchronized (manager) {
-            //session = manager.createIncomingJingleSession(this);
+        	final JingleSession session = manager.createIncomingJingleSession(this);
             // Acknowledge the IQ reception
             session.setSid(this.getSessionID());
             //session.sendAck(this.getJingle());
             session.updatePacketListener();
             session.receivePacketAndRespond(this.getJingle());
+            return session;
         }
-        return session;
     }
 
     /**
